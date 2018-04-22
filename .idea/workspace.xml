@@ -26,8 +26,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/snapdragon/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
+            <state relative-caret-position="210">
+              <caret line="151" column="8" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="8" />
               <folding>
                 <element signature="e#73#97#0" expanded="true" />
               </folding>
@@ -175,7 +175,21 @@
       <option name="project" value="LOCAL" />
       <updated>1524378191761</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="attempting to add vibration pin outputs (1 and 0, no middle)">
+      <created>1524381691959</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1524381691959</updated>
+    </task>
+    <task id="LOCAL-00005" summary="attempting middle values">
+      <created>1524382356682</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1524382356682</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -208,7 +222,9 @@
     <MESSAGE value="code base test 1" />
     <MESSAGE value="added sonar sensor info" />
     <MESSAGE value="sonar patch" />
-    <option name="LAST_COMMIT_MESSAGE" value="sonar patch" />
+    <MESSAGE value="attempting to add vibration pin outputs (1 and 0, no middle)" />
+    <MESSAGE value="attempting middle values" />
+    <option name="LAST_COMMIT_MESSAGE" value="attempting middle values" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/README.md">
@@ -227,8 +243,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/snapdragon/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
+        <state relative-caret-position="210">
+          <caret line="151" column="8" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="8" />
           <folding>
             <element signature="e#73#97#0" expanded="true" />
           </folding>

@@ -149,6 +149,7 @@ def set_vibrator_current(pin, current):
         GPIO.output(pin, 0)
     else:
         GPIO.output(pin, current / 8)
+        
 
     return
 
