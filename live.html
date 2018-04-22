@@ -1,7 +1,8 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <style>
     * {
       overflowX: hidden;
@@ -45,29 +46,47 @@
       ctx.putImageData(canvasData, 0, 0);
     }
 
-    var i = 0;
-    var point = [];
+    var queue = [];
+    var j = 0;
     //function clearLastPoint(points)
     var myTime = setInterval(function() {
-      var rad = (30 + Math.floor(Math.random() * 120)) * (Math.PI / 180);
+      var rad = (Math.floor(Math.random() * 60)) * (Math.PI / 180);
       var h = Math.floor(Math.random() * (170 - 100) + 100);
       var r = Math.floor(Math.random() * 255);
       var g = Math.floor(Math.random() * 255);
       var b = Math.floor(Math.random() * 255);
-      if (i >= 20) {
-        drawPixel(point[i - 20][0], point[i - 20][1], 255, 255, 255, point[i - 20][5]);
-        point[i] = [Math.floor((canvasWidth / 2) + Math.cos(rad) * h), Math.floor(canvasHeight - Math.sin(rad) * h), r, g, b, 255];
-        console.log(point[i]);
-        drawPixel(point[i][0], point[i][1], point[i][2], point[i][3], point[i][4], point[i][5]);
+      var sign = Math.random() >= 0.5;
+
+      var x = 0;
+      var y = 0;
+      if (sign) {
+        x = Math.floor((canvasWidth / 2) + Math.sin(rad) * h);
+      } else {
+        x = Math.floor((canvasWidth / 2) - Math.sin(rad) * h);
+      }
+      y = Math.floor(canvasHeight - Math.cos(rad) * h);
+
+      var arr = [x, y, r, g, b, 255];
+      console.log(arr);
+      if (j >= 19) {
+        var temp = queue.shift();
+        drawPixel(temp[0], temp[1], 255, 255, 255, 255);
+        queue.push(arr);
+        console.log(arr);
+        console.log(h);
+        console.log(Math.floor(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))));
+        drawPixel(x, y, r, g, b, 255);
         updateCanvas();
       } else {
-        point[i] = [Math.floor((canvasWidth / 2) + Math.cos(rad) * h), Math.floor(canvasHeight - Math.sin(rad) * h), r, g, b, 255];
-        console.log(point[i]);
-        drawPixel(point[i][0], point[i][1], point[i][2], point[i][3], point[i][4], point[i][5]);
+        queue.push(arr);
+        console.log(arr);
+        console.log(h);
+        console.log(Math.floor(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))));
+        drawPixel(x, y, r, g, b, 255);
+        j++;
         updateCanvas();
       }
-      i++;
-    }, 100);
+    }, 500);
   </script>
 </body>
 
