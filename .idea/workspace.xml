@@ -26,8 +26,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/snapdragon/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-428">
-              <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
+            <state relative-caret-position="457">
+              <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
               <folding>
                 <element signature="e#73#97#0" expanded="true" />
               </folding>
@@ -161,7 +161,21 @@
       <option name="project" value="LOCAL" />
       <updated>1524369675906</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added sonar sensor info">
+      <created>1524378037429</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1524378037429</updated>
+    </task>
+    <task id="LOCAL-00003" summary="sonar patch">
+      <created>1524378191761</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1524378191761</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -192,7 +206,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="code base test 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="code base test 1" />
+    <MESSAGE value="added sonar sensor info" />
+    <MESSAGE value="sonar patch" />
+    <option name="LAST_COMMIT_MESSAGE" value="sonar patch" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/README.md">
@@ -211,8 +227,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/snapdragon/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-428">
-          <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
+        <state relative-caret-position="457">
+          <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
           <folding>
             <element signature="e#73#97#0" expanded="true" />
           </folding>

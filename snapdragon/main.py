@@ -19,16 +19,16 @@ sonic_echo_pin = 4
 
 # Vibrator Pins
 vibrator_pins = {
-    "1": 10,
-    "2": 11,
-    "3": 12,
-    "4": 13,
-    "5": 14,
-    "6": 15,
-    "7": 16,
-    "8": 17,
-    "9": 18,
-    "10": 19
+    "1": 21,
+    "2": 20,
+    "3": 16,
+    "4": 12,
+    "5": 7,
+    "6": 8,
+    "7": 25,
+    "8": 24,
+    "9": 23,
+    "10": 18
 }
 
 
@@ -144,6 +144,9 @@ def get_sonar():
 # turns on a vibrator pin to a given current
 def set_vibrator_current(pin, current):
     # set gpio pin current
+    print("current: " + str(current))
+    if current > 4:
+        GPIO.output(pin, 1)
 
     return
 
