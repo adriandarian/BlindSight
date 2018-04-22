@@ -1,0 +1,74 @@
+<html>
+
+<head>
+  <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <style>
+    * {
+      overflowX: hidden;
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    #myCanvas {
+      background-color: rgb(255, 255, 255);
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas"></canvas>
+
+  <script>
+    var canvas = document.getElementById("myCanvas");
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
+    var ctx = canvas.getContext("2d");
+    var canvasData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+
+    // That's how you define the value of a pixel //
+    function drawPixel(x, y, r, g, b, a) {
+      var index = (x + y * canvasWidth) * 4;
+      canvasData.data[index + 0] = r;
+      canvasData.data[index + 1] = g;
+      canvasData.data[index + 2] = b;
+      canvasData.data[index + 3] = a;
+    }
+
+    // That's how you update the canvas, so that your //
+    // modification are taken in consideration //
+    function updateCanvas() {
+      ctx.putImageData(canvasData, 0, 0);
+    }
+
+    var i = 0;
+    var point = [];
+    //function clearLastPoint(points)
+    var myTime = setInterval(function() {
+      var rad = (30 + Math.floor(Math.random() * 120)) * (Math.PI / 180);
+      var h = Math.floor(Math.random() * (170 - 100) + 100);
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      if (i >= 20) {
+        drawPixel(point[i - 20][0], point[i - 20][1], 255, 255, 255, point[i - 20][5]);
+        point[i] = [Math.floor((canvasWidth / 2) + Math.cos(rad) * h), Math.floor(canvasHeight - Math.sin(rad) * h), r, g, b, 255];
+        console.log(point[i]);
+        drawPixel(point[i][0], point[i][1], point[i][2], point[i][3], point[i][4], point[i][5]);
+        updateCanvas();
+      } else {
+        point[i] = [Math.floor((canvasWidth / 2) + Math.cos(rad) * h), Math.floor(canvasHeight - Math.sin(rad) * h), r, g, b, 255];
+        console.log(point[i]);
+        drawPixel(point[i][0], point[i][1], point[i][2], point[i][3], point[i][4], point[i][5]);
+        updateCanvas();
+      }
+      i++;
+    }, 100);
+  </script>
+</body>
+
+</html>
