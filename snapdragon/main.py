@@ -90,7 +90,7 @@ def setStep(w1, w2, w3, w4):
 
 def send_point(angle, distance):
     try:
-        requests.post("http://138.68.47.123:5000/post", json={"angle": str(angle), "distance": str(distance)})
+        requests.post("http://138.68.47.123:5000/live", json={"angle": str(angle), "distance": str(distance)})
     except:
         pass
     return
@@ -230,7 +230,7 @@ def primary_control():
         distance_ft = distance_cm / 2.54 / 12  # converts the distance from centimeters to feet
 #        inverse_distance_ft = 30 - distance_ft  # gets the inverse_distance (30ft = 0ft, 20ft = 10ft, 10ft = 20ft)
         
-        sendPoint((5-int(point))*12, distance_ft)
+        send_point((5-int(point))*12, distance_ft)
 
         if int(distance_ft) > 10:
             GPIO.output(vibrator_pins[str(point)], 0)
