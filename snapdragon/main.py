@@ -119,12 +119,7 @@ def move_stepper(direction="none"):
 # sends a sonar pulse and gets the distance reading
 def get_sonar():
     # get input from sensor
-
-    #write high, small delay, low
-
-    #pulse in
-    #dist = duration * .034/2
-    #print dist
+    print("IN")
     GPIO.output(sonic_trig_pin, True)
     time.sleep(0.00001)
     GPIO.output(sonic_trig_pin, False)
@@ -142,6 +137,7 @@ def get_sonar():
 
     distance = pulse_duration * 17150
     distance = round(distance, 2)
+    print("OUT")
     return distance
 
 
