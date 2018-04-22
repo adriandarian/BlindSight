@@ -50,7 +50,7 @@
     var j = 0;
     //function clearLastPoint(points)
     var myTime = setInterval(function() {
-      var rad = (Math.floor(Math.random() * 60)) * (Math.PI / 180);
+      var rad = (Math.random() * 60) * (Math.PI / 180);
       var h = Math.floor(Math.random() * (170 - 100) + 100);
       var r = Math.floor(Math.random() * 255);
       var g = Math.floor(Math.random() * 255);
@@ -73,20 +73,20 @@
         drawPixel(temp[0], temp[1], 255, 255, 255, 255);
         queue.push(arr);
         console.log(arr);
-        console.log(h);
-        console.log(Math.floor(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))));
+        console.log(Math.floor(Math.pow(h,2)));
+        console.log(Math.floor(Math.pow((Math.sin(rad) * h), 2) + Math.pow((Math.cos(rad) * h), 2)));
         drawPixel(x, y, r, g, b, 255);
         updateCanvas();
       } else {
         queue.push(arr);
         console.log(arr);
-        console.log(h);
-        console.log(Math.floor(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))));
+        console.log(Math.floor(Math.pow(h,2)));
+        console.log(Math.floor(Math.pow((Math.sin(rad) * h), 2) + Math.pow((Math.cos(rad) * h), 2)));
         drawPixel(x, y, r, g, b, 255);
         j++;
         updateCanvas();
       }
-    }, 500);
+    }, 1000);
   </script>
 </body>
 
