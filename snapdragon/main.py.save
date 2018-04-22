@@ -64,6 +64,7 @@ GPIO.setup(vibrator_pins["10"], GPIO.OUT)
 
 
 def setStep(w1, w2, w3, w4):
+    print("in set step")
     GPIO.output(motor_pin_1, w1)
     GPIO.output(motor_pin_2, w2)
     GPIO.output(motor_pin_3, w3)
@@ -72,45 +73,24 @@ def setStep(w1, w2, w3, w4):
 
 # moves the stepper one step
 def move_stepper(direction="none"):
-    delay = .003
+    delay = .025
     if direction == "forward":
-        setStep(1, 0, 0, 1)
+        setStep(1, 0, 1, 0)
         time.sleep(delay)
         setStep(1, 0, 0, 0)
         time.sleep(delay)
-        setStep(1, 1, 0, 0)
-        time.sleep(delay)
-        setStep(0, 1, 0, 0)
-        time.sleep(delay)
         setStep(0, 1, 1, 0)
         time.sleep(delay)
-        setStep(0, 0, 1, 0)
+except:
+    pass
+
+        setStep(0, 1, 0, 1)
         time.sleep(delay)
-        setStep(0, 0, 1, 1)
+        setStep(1, 0, 0, 1)
         time.sleep(delay)
-        setStep(0, 0, 0, 1)
-        time.sleep(delay)
-#        setStep(1, 0, 0, 1)
 
     if direction == "backward":
-        setStep(1, 0, 0, 1)
-        time.sleep(delay)
-        setStep(0, 0, 0, 1)
-        time.sleep(delay)
-        setStep(0, 0, 1, 1)
-        time.sleep(delay)
-        setStep(0, 0, 1, 0)
-        time.sleep(delay)
-        setStep(0, 1, 1, 0)
-        time.sleep(delay)
-        setStep(0, 1, 0, 0)
-        time.sleep(delay)
-        setStep(1, 1, 0, 0)
-        time.sleep(delay)
-        setStep(1, 0, 0, 0)
-        time.sleep(delay)
-#        setStep(1, 0, 0, 1)
-
+        pass
     return
 
 
@@ -138,10 +118,10 @@ def primary_control():
     # 1. move stepper
     # 2. get sonar
     # 3. update vibrations
-    point = 1  # direction indicator (-5 to 5), also corresponds to the vibrator. Starts at 0
+    point = 5  # direction indicator (-5 to 5), also corresponds to the vibrator. Starts at 0
     direction = "forward"
 
-    steps_per_vibrator = 10
+    steps_per_vibrator = 5
     
     print("in primary control")
     while True:
@@ -156,10 +136,8 @@ def primary_control():
             point -= 1
 
         if point == 10:
-            time.sleep(.1)
             direction = "backward"
         if point == 1:
-            time.sleep(.1)
             direction = "forward"
 
         print("Point: " + str(point))
