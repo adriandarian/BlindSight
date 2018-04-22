@@ -1,26 +1,22 @@
 import os
-from flask import Flask,redirect
+from flask import Flask,request, render_template, random
 
-try:
+points = []
 
-	app = Flask(_name_)
+app = Flask(__name__)
 
-	@app.route('/')
-	def hello():
-	    return redirect("https://adriandarian.github.io/blindsight", 
-code=302)
+@app.route('/')
+def hello():
+    return redirect("https://adriandarian.github.io/blindsight", code=302)
 
-	@app.route('/live', methods=['POST'])
-	def info():
-		req_data = request.get_json()
-		print req_data
-
-	if _name_ == '_main_':
-	    # Bind to PORT if defined, otherwise default to 5000.
-	    port = int(os.environ.get('PORT', 5000))
-	    app.run(host='127.0.0.1', port=port)
+@app.route('/live', methods=['POST'])
+def live():
+	req_data = request.get_json(force=True)
+	points.append([req_data["angle"], req_data["distance"]])
+	print points
+	return render_template('live.html', bot=points)
 
 
-except Exception as e:
-	with open("logg.txt", "w") as logfile:
-		logfile.write(str(e.what()))
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='127.0.0.1', port=port, debug=True)
