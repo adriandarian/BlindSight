@@ -24,27 +24,27 @@ vibrator_delays = {
 # ## Pin Numbers ## #
 
 # Motor Controller Pins
-motor_pin_1 = 6
-motor_pin_2 = 13
-motor_pin_3 = 19
-motor_pin_4 = 26
+motor_pin_1 = 26
+motor_pin_2 = 19
+motor_pin_3 = 13
+motor_pin_4 = 6
 
 # Ultrasonic Pins
 sonic_trig_pin = 3
-sonic_echo_pin = 4
+sonic_echo_pin = 2
 
 # Vibrator Pins
 vibrator_pins = {
-    "1": 21,
-    "2": 20,
-    "3": 16,
-    "4": 12,
-    "5": 7,
-    "6": 8,
-    "7": 25,
-    "8": 24,
-    "9": 23,
-    "10": 18
+    "1": 14,
+    "2": 15,
+    "3": 18,
+    "4": 23,
+    "5": 24,
+    "6": 17,
+    "7": 27,
+    "8": 22,
+    "9": 10,
+    "10": 9
 }
 
 
