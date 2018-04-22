@@ -145,8 +145,10 @@ def get_sonar():
 def set_vibrator_current(pin, current):
     # set gpio pin current
     print("current: " + str(current))
-    if current > 4:
-        GPIO.output(pin, 1)
+    if current < 0:
+        GPIO.output(pin, 0)
+    else:
+        GPIO.output(pin, current / 8)
 
     return
 
