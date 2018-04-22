@@ -14,8 +14,8 @@ motor_pin_3 = 19
 motor_pin_4 = 26
 
 # Ultrasonic Pins
-sonic_input_pin = 19
-sonic_data_pin = 20
+sonic_trig_pin = 3
+sonic_echo_pin = 4
 
 # Vibrator Pins
 vibrator_pins = {
@@ -46,9 +46,11 @@ GPIO.setup(motor_pin_2, GPIO.OUT)
 GPIO.setup(motor_pin_3, GPIO.OUT)
 GPIO.setup(motor_pin_4, GPIO.OUT)
 
+
 # Setup Ultrasonic Pins
-GPIO.setup(sonic_input_pin, GPIO.OUT)
-GPIO.setup(sonic_data_pin, GPIO.OUT)
+GPIO.setup(sonic_trig_pin, GPIO.OUT)
+GPIO.setup(sonic_echo_pin, GPIO.IN)
+
 
 # Setup Vibrator Pins
 GPIO.setup(vibrator_pins["1"], GPIO.OUT)
@@ -123,7 +125,24 @@ def get_sonar():
     #pulse in
     #dist = duration * .034/2
     #print dist
-    return 5
+    GPIO.output(sonic_trig_pin, True)
+    time.sleep(0.00001)
+    GPIO.output(sonic_trig_pin, False)
+
+    pulse_start = 0
+    pulse_end = 0
+
+    while GPIO.input(sonic_echo_pin) == 0:
+        pulse_start = time.time()
+
+    while GPIO.input(sonic_echo_pin) == 1:
+        pulse_end = time.time()
+
+    pulse_duration = pulse_end - pulse_start
+
+    distance = pulse_duration * 17150
+    distance = round(distance, 2)
+    return distance
 
 
 # turns on a vibrator pin to a given current
@@ -138,6 +157,9 @@ def primary_control():
     # 1. move stepper
     # 2. get sonar
     # 3. update vibrations
+    GPIO.output(sonic_trig_pin, False)
+    time.sleep(2)
+
     point = 1  # direction indicator (-5 to 5), also corresponds to the vibrator. Starts at 0
     direction = "forward"
 
