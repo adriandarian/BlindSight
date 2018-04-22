@@ -1,6 +1,5 @@
 # Manages the Snapdragon board: GPIO input/output, processing, response
 
-from gpiozero import LED
 import RPi.GPIO as GPIO
 import time
 import threading
@@ -24,27 +23,27 @@ vibrator_delays = {
 # ## Pin Numbers ## #
 
 # Motor Controller Pins
-motor_pin_1 = 26
-motor_pin_2 = 19
-motor_pin_3 = 13
-motor_pin_4 = 6
+motor_pin_1 = 31
+motor_pin_2 = 33
+motor_pin_3 = 35
+motor_pin_4 = 37
 
 # Ultrasonic Pins
-sonic_trig_pin = 3
-sonic_echo_pin = 2
+sonic_trig_pin = 5
+sonic_echo_pin = 3
 
 # Vibrator Pins
 vibrator_pins = {
-    "1": 14,
-    "2": 15,
-    "3": 18,
-    "4": 23,
-    "5": 24,
-    "6": 17,
-    "7": 27,
-    "8": 22,
-    "9": 10,
-    "10": 9
+    "1": 31,
+    "2": 31,
+    "3": 31,
+    "4": 31,
+    "5": 31,
+    "6": 31,
+    "7": 31,
+    "8": 31,
+    "9": 31,
+    "10": 31
 }
 
 
