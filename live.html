@@ -4,10 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <style>
-    * {
-      overflowX: hidden;
-    }
-
     body {
       padding: 0;
       margin: 0;
@@ -15,19 +11,22 @@
 
     #myCanvas {
       background-color: rgb(255, 255, 255);
-      width: 100%;
-      height: 100%;
     }
   </style>
 </head>
 
 <body>
-  <canvas id="myCanvas"></canvas>
+  <canvas id="myCanvas" width="500" height="500"></canvas>
 
   <script>
     var canvas = document.getElementById("myCanvas");
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
     var canvasWidth = canvas.width;
     var canvasHeight = canvas.height;
+    document.body.scrollTop = 0; // <-- pull the page back up to the top
+    document.body.style.overflow = 'hidden'
     var ctx = canvas.getContext("2d");
     var canvasData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
 
@@ -46,47 +45,105 @@
       ctx.putImageData(canvasData, 0, 0);
     }
 
+
+
+    var centerX = Math.floor(canvas.width / 2);
+    var centerY = Math.floor(canvas.height * 0.85);
+
+    ctx.beginPath();
+    ctx.arc(centerX,centerY,20,0,2*Math.PI);
+    ctx.fillStyle = "black";
+    ctx.fill();
+
     var queue = [];
     var j = 0;
-    //function clearLastPoint(points)
-    var myTime = setInterval(function() {
-      var rad = (Math.random() * 60) * (Math.PI / 180);
-      var h = Math.floor(Math.random() * (170 - 100) + 100);
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
-      var sign = Math.random() >= 0.5;
 
-      var x = 0;
-      var y = 0;
-      if (sign) {
-        x = Math.floor((canvasWidth / 2) + Math.sin(rad) * h);
-      } else {
-        x = Math.floor((canvasWidth / 2) - Math.sin(rad) * h);
-      }
-      y = Math.floor(canvasHeight - Math.cos(rad) * h);
+    function drawPoints() {
+      var response = JSON.parse(xhr.responseText);
+      var angle  = response.angle;
+      var distance = response.distance;
+      var data = [angle, distance];
 
-      var arr = [x, y, r, g, b, 255];
-      console.log(arr);
-      if (j >= 19) {
-        var temp = queue.shift();
-        drawPixel(temp[0], temp[1], 255, 255, 255, 255);
-        queue.push(arr);
+      for (var i = 0; i < data.length; i++) {
+
+        var rad = Math.floor(data[0][i] * (Math.PI / 180));
+
+        var h = Math.floor(Math.abs(data[1][i]));
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+
+        var x = 0;
+        var y = 0;
+        if (data[1][i] >= 0) {
+          x = Math.floor((canvasWidth / 2) + Math.sin(rad) * h);
+        } else {
+          x = Math.floor((canvasWidth / 2) - Math.sin(rad) * h);
+        }
+        y = Math.floor(canvasHeight - Math.cos(rad) * h);
+
+        var arr = [x, y, r, g, b, 255];
         console.log(arr);
-        console.log(Math.floor(Math.pow(h,2)));
-        console.log(Math.floor(Math.pow((Math.sin(rad) * h), 2) + Math.pow((Math.cos(rad) * h), 2)));
-        drawPixel(x, y, r, g, b, 255);
-        updateCanvas();
-      } else {
-        queue.push(arr);
-        console.log(arr);
-        console.log(Math.floor(Math.pow(h,2)));
-        console.log(Math.floor(Math.pow((Math.sin(rad) * h), 2) + Math.pow((Math.cos(rad) * h), 2)));
-        drawPixel(x, y, r, g, b, 255);
-        j++;
-        updateCanvas();
+        if (j >= 9) {
+          var temp = queue.shift();
+          drawPixel(temp[0], temp[1], 255, 255, 255, 255);
+          drawPixel(temp[0] + 1, temp[1], 255, 255, 255, 255);
+          drawPixel(temp[0], temp[1] + 1, 255, 255, 255, 255);
+          drawPixel(temp[0] + 1, temp[1] + 1, 255, 255, 255, 255);
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgb(' + 255 + ',' + 255 + ',' + 255 + ')';
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(temp[0], temp[1]);
+          ctx.stroke();
+
+          queue.push(arr);
+          console.log(arr);
+          console.log(Math.floor(Math.pow(h,2)));
+          console.log(Math.floor(Math.pow((Math.sin(rad) * h), 2) + Math.pow((Math.cos(rad) * h), 2)));
+          drawPixel(x, y, r, g, b, 255);
+          drawPixel(x + 1, y, r, g, b, 255);
+          drawPixel(x, y + 1, r, g, b, 255);
+          drawPixel(x + 1, y + 1, r, g, b, 255);
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+
+          updateCanvas();
+        } else {
+          queue.push(arr);
+          console.log(arr);
+          console.log(Math.floor(Math.pow(h,2)));
+          console.log(Math.floor(Math.pow((Math.sin(rad) * h), 2) + Math.pow((Math.cos(rad) * h), 2)));
+          drawPixel(x, y, r, g, b, 255);
+          drawPixel(x + 1, y, r, g, b, 255);
+          drawPixel(x, y + 1, r, g, b, 255);
+          drawPixel(x + 1, y + 1, r, g, b, 255);
+
+          ctx.strokeStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+
+          j++;
+          updateCanvas();
+        }
       }
-    }, 1000);
+    }
+
+    function httpGetAsync() {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          drawPoints(xmlHttp.responseText);
+      }
+      xmlHttp.open("GET", "https://adriandarian.github.io/blindsight/", true); // true for asynchronous
+      xmlHttp.send(null);
+    }
+
+    var myTime2 = setInterval(httpGetAsync(), 1000);
   </script>
 </body>
 
