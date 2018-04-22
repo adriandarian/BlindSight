@@ -3,6 +3,7 @@
 import RPi.GPIO as GPIO
 import time
 import threading
+import requests
 
 
 # ## Vibration Delay Dictionary ## #
@@ -85,6 +86,14 @@ def setStep(w1, w2, w3, w4):
     GPIO.output(motor_pin_2, w2)
     GPIO.output(motor_pin_3, w3)
     GPIO.output(motor_pin_4, w4)
+
+
+def send_point(angle, distance):
+    try:
+        requests.post("http://138.68.47.123:5000/post", json={"angle": str(angle), "distance": str(distance)})
+    except:
+        pass
+    return
 
 
 # moves the stepper one step
