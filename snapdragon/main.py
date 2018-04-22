@@ -3,6 +3,22 @@
 from gpiozero import LED
 import RPi.GPIO as GPIO
 import time
+import threading
+
+
+# ## Vibration Delay Dictionary ## #
+vibrator_delays = {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0
+}
 
 
 # ## Pin Numbers ## #
@@ -141,17 +157,21 @@ def get_sonar():
     return distance
 
 
-# turns on a vibrator pin to a given current
-def set_vibrator_current(pin, current):
-    # set gpio pin current
-    print("current: " + str(current))
-    if current < 0:
-        GPIO.output(pin, 0)
-    else:
-        GPIO.output(pin, current / 8)
-        
+# Thread to determine vibration IO pins
+def vibration_thread():
+    timer = 0
+    while True:  # infinite loop because... well.. this thread is infinite
+        timer += 1  # timer used to determine whether a vibrator should be on are off
+        for vibrator_id in range(1, 10+1):
+            if timer % vibrator_delays[str(vibrator_id)] == 0:
+                GPIO.output(vibrator_pins[str(vibrator_id)], 1)
+            if (timer - 2) % vibrator_delays[str(vibrator_id)] == 0:
+                GPIO.output(vibrator_pins[str(vibrator_id)], 0)
 
-    return
+        if timer == 1000:
+            timer = 0
+
+        time.sleep(.01)
 
 
 # the primary control loop
@@ -159,6 +179,10 @@ def primary_control():
     # 1. move stepper
     # 2. get sonar
     # 3. update vibrations
+    print("Launching Vibration Delay Thread")
+    vibration_delay_thread = threading.Thread(target=vibration_thread)
+    vibration_delay_thread.start()
+
     GPIO.output(sonic_trig_pin, False)
     time.sleep(2)
 
@@ -194,10 +218,8 @@ def primary_control():
         distance_ft = distance_cm / 2.54  # converts the distance from centimeters to feet
         inverse_distance_ft = 30 - distance_ft  # gets the inverse_distance (30ft = 0ft, 20ft = 10ft, 10ft = 20ft)
 
-        # gets the inverse distance as a proportion of the max (30ft), multiplies by 8 to get the vibration intensity
-        current = (inverse_distance_ft / 30) * 8
-
-        set_vibrator_current(vibrator_pins[str(point)], current)  # turns on the vibrator to the current
+        print("Distance Feet: " + distance_ft)
+        vibrator_delays[str(point)] = distance_ft
 
 
 if __name__ == "__main__":
