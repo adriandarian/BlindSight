@@ -161,6 +161,7 @@ def vibration_thread():
     while True:  # infinite loop because... well.. this thread is infinite
         timer += 1  # timer used to determine whether a vibrator should be on are off
         for vibrator_id in range(1, 10+1):
+#            print("TIMER: " + str(timer) + " " + str(vibrator_delays[str(vibrator_id)]))
             if vibrator_delays[str(vibrator_id)] == 0:  # edge case
                 continue
 
@@ -173,7 +174,7 @@ def vibration_thread():
         if timer == 1000:
             timer = 0
 
-        time.sleep(.01)
+        time.sleep(.1)
 
 
 # the primary control loop
@@ -218,11 +219,13 @@ def primary_control():
         print("  Distance read (cm): " + str(distance_cm))
 
         distance_ft = distance_cm / 2.54 / 12  # converts the distance from centimeters to feet
-        inverse_distance_ft = 30 - distance_ft  # gets the inverse_distance (30ft = 0ft, 20ft = 10ft, 10ft = 20ft)
+#        inverse_distance_ft = 30 - distance_ft  # gets the inverse_distance (30ft = 0ft, 20ft = 10ft, 10ft = 20ft)
 
         print("Distance Feet: " + str(distance_ft))
-        vibrator_delays[str(point)] = distance_ft
-
+        if int(distance_ft) > 30:
+            distance_ft = 9999
+        vibrator_delays[str(point)] = int(distance_ft)
+       
 
 if __name__ == "__main__":
     print("HI")
