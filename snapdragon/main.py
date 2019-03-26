@@ -3,6 +3,7 @@
 import RPi.GPIO as GPIO
 import time
 import threading
+import requests
 
 
 # ## Vibration Delay Dictionary ## #
@@ -87,6 +88,14 @@ def setStep(w1, w2, w3, w4):
     GPIO.output(motor_pin_4, w4)
 
 
+def send_point(angle, distance):
+    try:
+        requests.post("http://138.68.47.123:5000/live", json={"angle": str(angle), "distance": str(distance)})
+    except:
+        pass
+    return
+
+
 # moves the stepper one step
 def move_stepper(direction="none"):
     delay = .003
@@ -165,15 +174,16 @@ def vibration_thread():
                 continue
 
             if timer % vibrator_delays[str(vibrator_id)] == 0:
-                print("turned on " + str(vibrator_id) + " with intensity " + str(vibrator_delays[str(vibrator_id)]))
+                print("turned on " + str(vibrator_id) + " on pin " + str(vibrator_pins[str(vibrator_id)]) + " with intensity " + str(vibrator_delays[str(vibrator_id)]))
                 GPIO.output(vibrator_pins[str(vibrator_id)], 1)
-            if (timer - 2) % vibrator_delays[str(vibrator_id)] == 0:
+            if (timer - 5) % vibrator_delays[str(vibrator_id)] == 0:
                 GPIO.output(vibrator_pins[str(vibrator_id)], 0)
+                vibrator_delays[str(vibrator_id)] = 0
 
         if timer == 1000:
             timer = 0
 
-        time.sleep(.1)
+        time.sleep(.2)
 
 
 # the primary control loop
@@ -195,7 +205,7 @@ def primary_control():
 
     print("in primary control")
     while True:
-        print("LOOP")
+#        print("LOOP")
         for step in range(0, steps_per_vibrator):
             move_stepper(direction=direction)  # move stepper
 
@@ -219,12 +229,19 @@ def primary_control():
 
         distance_ft = distance_cm / 2.54 / 12  # converts the distance from centimeters to feet
 #        inverse_distance_ft = 30 - distance_ft  # gets the inverse_distance (30ft = 0ft, 20ft = 10ft, 10ft = 20ft)
+        
+        send_point((5-int(point))*12, distance_ft)
+
+        if int(distance_ft) > 10:
+            GPIO.output(vibrator_pins[str(point)], 0)
+#            distance_ft = 9999
+
+#        if int(distance_ft) < 10:
+#            GPIO.output(vibrator_pins[str(point)], 1)
 
         print("Distance Feet: " + str(distance_ft))
-        if int(distance_ft) > 30:
-            distance_ft = 9999
         vibrator_delays[str(point)] = int(distance_ft)
-       
+
 
 if __name__ == "__main__":
     print("HI")
